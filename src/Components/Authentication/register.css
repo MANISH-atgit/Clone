@@ -1,0 +1,65 @@
+.Auth {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.Register {
+  display: flex;
+  flex-direction: column;
+}
+
+.Login {
+  display: flex;
+  flex-direction: column;
+}
+
+.Authentication {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #949494;
+  padding: 20px;
+  border-radius: 3px;
+}
+
+.register-user,
+.login-user,
+.logged-user {
+  margin: 10px;
+  color: #2e2e2e;
+  /* font-weight: 700; */
+}
+.auth-email,
+.auth-pass {
+  margin: 5px;
+  font-size: 0.8em;
+  padding: 4px 8px;
+}
+
+.auth-row {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+.auth-button {
+  margin: 5px;
+  border: 1px solid #474747;
+  background-color: #f5c518;
+  border-radius: 3px;
+  font-size: 0.8em;
+  padding: 6px 12px;
+  color: #474747;
+  opacity: 1;
+}
+
+.already-account {
+  font-size: 13px;
+  padding: 0 5px;
+}
+
+.hr {
+  margin: 20px 5px;
+}
+
+.signin-link {
+  text-decoration: none;
+}
