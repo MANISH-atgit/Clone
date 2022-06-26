@@ -27,6 +27,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { loadSearch, loadSignOut } from "../../redux/actions/index";
 import { navbarToggle } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 
 function Navbar() {
   const toggle = useSelector((state) => state.navbarToggle);
@@ -114,10 +115,12 @@ function Navbar() {
           </span>
           <img className="logo logo2" src={NavbarLogo2} />
           <div className="verticle-line"></div>
-          <a src="" className="watchlist">
+
+          <NavLink to="/watchlist" className="watchlist">
             <FontAwesomeIcon icon={faBookmark} className="nav-icons" />
             Watchlist
-          </a>
+          </NavLink>
+
           {signinData == "" ? (
             <NavLink to="/register" className="SignIn">
               Sign In

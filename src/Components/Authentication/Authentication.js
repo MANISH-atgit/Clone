@@ -9,11 +9,28 @@ import {
   signOut,
 } from "firebase/auth";
 import "./Authentication.css";
-import { auth } from "../../firebase/firebase-config";
+import {
+  addCollectionAndDocuments,
+  auth,
+  createUserDocumentFromAuth,
+  db,
+} from "../../firebase/firebase-config";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from "firebase/firestore";
 
 import { useDispatch, useSelector } from "react-redux";
 import { loadSignIn, loadSignOut } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
+import { DATA } from "../../firebase/data";
 
 let errorMsg;
 
@@ -40,6 +57,10 @@ function Authentication() {
     });
   }, []);
 
+  // useEffect(() => {
+  //   addCollectionAndDocuments("categories", DATA);
+  // }, []);
+
   const showError = (error) => {
     let authError = error.message;
     let errorSplit = authError.split("/");
@@ -48,32 +69,20 @@ function Authentication() {
     errorMsg = errorMessageList[0].toString();
     setErrorMEssage(errorMsg);
   };
-  const register = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword
-      );
-      console.log(user);
-      setShow(false);
-      // navigate("/");
-    } catch (error) {
-      showError(error);
-      setShow(true);
-    }
-  };
 
   const login = async () => {
     try {
-      const user = await signInWithEmailAndPassword(
+      const { user } = await signInWithEmailAndPassword(
         auth,
         loginEmail,
         loginPassword
       );
+      createUserDocumentFromAuth(user);
+      let setDoc = db.collection("cities").doc("LA").set("data");
+      // addCollectionAndDocuments("categories", DATA);
       console.log(user);
       setShow(false);
-      navigate("/");
+      // navigate("/");
       // dispatch(loadSignIn(userLogged.email));
     } catch (error) {
       showError(error);

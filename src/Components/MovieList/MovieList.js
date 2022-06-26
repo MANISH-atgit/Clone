@@ -20,6 +20,7 @@ function MovieList() {
   const datalist = useSelector((state) => state.images);
   const signedIn = useSelector((state) => state.register);
   const dispatch = useDispatch();
+  let localStorageList = JSON.parse(localStorage.getItem(signedIn)) || [];
 
   let data = Array.from(datalist);
 
@@ -27,92 +28,31 @@ function MovieList() {
 
   useEffect(() => {
     dispatch(loadMovieList(location.state.url));
-  }, [location.state.url]);
+    var list = data[0].items;
+    setUsers(list);
+  }, [data[0].items]);
 
   console.log(location.state.url);
 
-  var list;
   var sorted;
 
   const watchlist = (user) => {
     console.log(signedIn);
     if (!(signedIn.toString().trim() === "")) {
       console.log(user);
+      console.log(signedIn);
+      localStorageList.push(user);
+      console.log(localStorageList);
+      localStorage.setItem(signedIn, JSON.stringify(localStorageList));
     } else {
       console.log("error");
     }
   };
-  try {
-    list = users
-      .slice(0, 20)
-      .filter((user) => {
-        if (searchTerm == "") {
-          console.log(user);
-          return user;
-        } else if (
-          user.title
-            .trim()
-            .toLowerCase()
-            .includes(searchTerm.trim().toLowerCase())
-        ) {
-          return user;
-        }
-      })
-      .map((user) => (
-        <tr>
-          <td>
-            <img
-              className="table-image"
-              src={user.image}
-              style={{ width: "50px" }}
-            />
-            <small className="table-row">
-              {user.rank}.{" "}
-              <NavLink
-                to={`/title/${user.id}`}
-                state={user.id}
-                className="MovieList-NavLink"
-              >
-                <span className="blueName">{user.title}</span>
-              </NavLink>
-              {/* <small>`${user.year}`</small> */}
-              <small style={{ fontSize: "0.9em" }}>{`(${user.year})`}</small>
-              {console.log(user.id)}
-            </small>
-          </td>
-          <td
-            style={{
-              fontSize: "0.8rem",
-            }}
-          >
-            <FontAwesomeIcon
-              icon={solidStar}
-              style={{
-                color: "#f5c518",
-                padding: "0 5px",
-              }}
-              size="lg"
-            />
-            <b>{user.imDbRating}</b>
-          </td>
-          <td>
-            <FontAwesomeIcon
-              icon={thinStar}
-              style={{ color: "grey", opacity: "0.5" }}
-            />
-          </td>
-          <td>
-            <FontAwesomeIcon
-              icon={faPlus}
-              style={{ color: "grey", cursor: "pointer" }}
-              onClick={() => watchlist(user)}
-            />
-          </td>
-        </tr>
-      ));
-  } catch (error) {
-    console.log(error);
-  }
+  // try {
+  //   list =
+  // } catch (error) {
+  //   console.log(error);
+  // }
 
   const sortByYear = (e) => {
     const sortDirection = e.target.value;
@@ -204,7 +144,75 @@ function MovieList() {
                     </th>
                     <th></th>
                   </tr>
-                  {list}
+                  {users
+                    .slice(0, 20)
+                    .filter((user) => {
+                      if (searchTerm == "") {
+                        console.log(user);
+                        return user;
+                      } else if (
+                        user.title
+                          .trim()
+                          .toLowerCase()
+                          .includes(searchTerm.trim().toLowerCase())
+                      ) {
+                        return user;
+                      }
+                    })
+                    .map((user) => (
+                      <tr>
+                        <td>
+                          <img
+                            className="table-image"
+                            src={user.image}
+                            style={{ width: "50px" }}
+                          />
+                          <small className="table-row">
+                            {user.rank}.{" "}
+                            <NavLink
+                              to={`/title/${user.id}`}
+                              state={user.id}
+                              className="MovieList-NavLink"
+                            >
+                              <span className="blueName">{user.title}</span>
+                            </NavLink>
+                            {/* <small>`${user.year}`</small> */}
+                            <small
+                              style={{ fontSize: "0.9em" }}
+                            >{`(${user.year})`}</small>
+                            {console.log(user.id)}
+                          </small>
+                        </td>
+                        <td
+                          style={{
+                            fontSize: "0.8rem",
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={solidStar}
+                            style={{
+                              color: "#f5c518",
+                              padding: "0 5px",
+                            }}
+                            size="lg"
+                          />
+                          <b>{user.imDbRating}</b>
+                        </td>
+                        <td>
+                          <FontAwesomeIcon
+                            icon={thinStar}
+                            style={{ color: "grey", opacity: "0.5" }}
+                          />
+                        </td>
+                        <td>
+                          <FontAwesomeIcon
+                            icon={faPlus}
+                            style={{ color: "grey", cursor: "pointer" }}
+                            onClick={() => watchlist(user)}
+                          />
+                        </td>
+                      </tr>
+                    ))}
                 </table>
               </div>
             </div>
