@@ -87,6 +87,13 @@
 
 #sort {
   width: 150px;
+  padding: 2px 10px;
+}
+
+#search_input {
+  margin-left: 5px;
+  width: 150px;
+  padding: 0 10px;
 }
 
 .Sidebar-header h5 {
@@ -142,9 +149,9 @@ tr {
   border: 1px solid white;
 }
 
-tr:hover {
+/* tr:hover {
   cursor: pointer;
-}
+} */
 
 tr:nth-child(even) {
   background-color: #f6f6f5;

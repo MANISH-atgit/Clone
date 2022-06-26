@@ -15,14 +15,14 @@ function Links(props) {
       {List.map((item, id) => (
         <NavLink
           className="links"
-          to={item.link}
+          to={item.url}
           state={{
             title: `${item.category}`,
-            url: `${item.url}`,
+            url: `https://imdb-api.com/en/API/${item.url}/k_ms6ozdd4`,
           }}
           key={id}
         >
-          {item.Name}
+          {item.category}
         </NavLink>
       ))}
     </div>

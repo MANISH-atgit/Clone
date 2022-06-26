@@ -14,69 +14,115 @@ import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function MovieList() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const location = useLocation();
   const datalist = useSelector((state) => state.images);
+  const signedIn = useSelector((state) => state.register);
   const dispatch = useDispatch();
 
-  // console.log(location.state.url);
   let data = Array.from(datalist);
-  // console.log(data[0]);
+
+  const [users, setUsers] = useState(data[0].items);
 
   useEffect(() => {
     dispatch(loadMovieList(location.state.url));
   }, [location.state.url]);
 
+  console.log(location.state.url);
+
   var list;
+  var sorted;
+
+  const watchlist = (user) => {
+    console.log(signedIn);
+    if (!(signedIn.toString().trim() === "")) {
+      console.log(user);
+    } else {
+      console.log("error");
+    }
+  };
   try {
-    list = data[0].items.map((user) => (
-      <tr>
-        <td>
-          <img
-            className="table-image"
-            src={user.image}
-            style={{ width: "50px" }}
-          />
-          <small className="table-row">
-            {user.rank}.{" "}
-            <NavLink
-              to={`/title/${user.id}`}
-              state={user.id}
-              className="MovieList-NavLink"
-            >
-              <span className="blueName">{user.title}</span>
-            </NavLink>
-            {console.log(user.id)}
-          </small>
-        </td>
-        <td
-          style={{
-            fontSize: "0.8rem",
-          }}
-        >
-          <FontAwesomeIcon
-            icon={solidStar}
+    list = users
+      .slice(0, 20)
+      .filter((user) => {
+        if (searchTerm == "") {
+          console.log(user);
+          return user;
+        } else if (
+          user.title
+            .trim()
+            .toLowerCase()
+            .includes(searchTerm.trim().toLowerCase())
+        ) {
+          return user;
+        }
+      })
+      .map((user) => (
+        <tr>
+          <td>
+            <img
+              className="table-image"
+              src={user.image}
+              style={{ width: "50px" }}
+            />
+            <small className="table-row">
+              {user.rank}.{" "}
+              <NavLink
+                to={`/title/${user.id}`}
+                state={user.id}
+                className="MovieList-NavLink"
+              >
+                <span className="blueName">{user.title}</span>
+              </NavLink>
+              {/* <small>`${user.year}`</small> */}
+              <small style={{ fontSize: "0.9em" }}>{`(${user.year})`}</small>
+              {console.log(user.id)}
+            </small>
+          </td>
+          <td
             style={{
-              color: "#f5c518",
-              padding: "0 5px",
+              fontSize: "0.8rem",
             }}
-            size="lg"
-          />
-          <b>{user.imDbRating}</b>
-        </td>
-        <td>
-          <FontAwesomeIcon
-            icon={thinStar}
-            style={{ color: "grey", opacity: "0.5" }}
-          />
-        </td>
-        <td>
-          <FontAwesomeIcon icon={faPlus} style={{ color: "grey" }} />
-        </td>
-      </tr>
-    ));
+          >
+            <FontAwesomeIcon
+              icon={solidStar}
+              style={{
+                color: "#f5c518",
+                padding: "0 5px",
+              }}
+              size="lg"
+            />
+            <b>{user.imDbRating}</b>
+          </td>
+          <td>
+            <FontAwesomeIcon
+              icon={thinStar}
+              style={{ color: "grey", opacity: "0.5" }}
+            />
+          </td>
+          <td>
+            <FontAwesomeIcon
+              icon={faPlus}
+              style={{ color: "grey", cursor: "pointer" }}
+              onClick={() => watchlist(user)}
+            />
+          </td>
+        </tr>
+      ));
   } catch (error) {
     console.log(error);
   }
+
+  const sortByYear = (e) => {
+    const sortDirection = e.target.value;
+    const copyArray = [...data[0].items];
+
+    copyArray.sort((a, b) => {
+      return sortDirection === "Ranking" ? a.rank - b.rank : a.year - b.year;
+    });
+    setUsers(copyArray);
+  };
 
   return (
     <div className="MovieList">
@@ -106,10 +152,21 @@ function MovieList() {
               </div>
               <div className="MovieList-sort">
                 <label for="sort">Sort by : </label>
-                <select name="sort" id="sort" form="sortform">
+                <select
+                  name="sort"
+                  id="sort"
+                  form="sortform"
+                  onChange={sortByYear}
+                >
                   <option value="Ranking">Ranking</option>
                   <option value="Release">Release</option>
                 </select>
+                <input
+                  type="text"
+                  placeholder="Search Here"
+                  id="search_input"
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                />
               </div>
             </div>
             <div className="MovieList-list">

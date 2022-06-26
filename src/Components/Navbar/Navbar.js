@@ -73,7 +73,7 @@ function Navbar() {
 
   const logout = async () => {
     await signOut(auth);
-    navigate("/signin");
+    navigate("/register");
     console.log("logout");
   };
 

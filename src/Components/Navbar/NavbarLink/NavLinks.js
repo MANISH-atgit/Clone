@@ -20,56 +20,40 @@ function NavLinks({ slide }) {
 
   const Movies = [
     {
-      link: "/top250",
-      Name: "Top 250 Movies",
       category: "Top 250 Movies",
-      url: "https://imdb-api.com/en/API/Top250Movies/k_67o8cg68",
+      url: "Top250Movies",
     },
     {
-      link: "/popular",
-      Name: "Popular Movies",
       category: "popular",
-      url: "https://imdb-api.com/en/API/MostPopularMovies/k_67o8cg68",
+      url: "MostPopularMovies",
     },
     {
-      link: "/popular",
-      Name: "Box Office",
       category: "Top Box Office",
-      url: "https://imdb-api.com/en/API/BoxOffice/k_67o8cg68",
+      url: "BoxOffice",
     },
   ];
   const TV = [
     {
-      link: "/top250",
-      Name: "Top 250 TV Shows",
       category: "Top 250 TV Shows",
-      url: "https://imdb-api.com/en/API/Top250TVs/k_67o8cg68",
+      url: "Top250TVs",
     },
     {
-      link: "/popular",
-      Name: "Popular TV Shows",
       category: "Popular TV Shows",
-      url: "https://imdb-api.com/en/API/MostPopularTVs/k_67o8cg68",
+      url: "MostPopularTVs",
     },
     {
-      link: "/popular",
-      Name: "Rating",
       category: "Rating",
-      url: "https://imdb-api.com/en/API/MostPopularTVs/k_67o8cg68",
+      url: "MostPopularTVs",
     },
   ];
   const Awards = [
     {
-      link: "/top250",
-      Name: "Academy",
       category: "Academy Awards",
-      url: "https://imdb-api.com/en/API/ComingSoon/k_67o8cg68",
+      url: "ComingSoon",
     },
     {
-      link: "/popular",
-      Name: "Others",
       category: "Other Awards",
-      url: "https://imdb-api.com/en/API/Top250Movies/k_67o8cg68",
+      url: "Top250Movies",
     },
   ];
   return (
